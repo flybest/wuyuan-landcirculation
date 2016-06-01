@@ -1,0 +1,278 @@
+/*公共界面*/
+body{
+	/*background-color: #FFF;*/
+}
+
+.mui-content{
+	/*background-color: transparent;*/
+}
+
+.mui-btn-block{
+	margin-top:20px;
+	padding:8px 0;
+}
+
+.redFont{
+	color:#f00;
+	padding:5px 0 0 4px;
+}
+
+.workBlock{
+	margin-bottom:5px;
+}
+
+.mui-btn.buttonOnRight{
+	margin: 0;
+    border: none;
+    width: 65%;
+    padding-left: 0;
+    border-radius: 0;
+}
+
+.mui-btn.buttonSingleLine{
+    border-radius: 0;
+    border-style: solid none solid none;
+    border-color: #c8c7cc;
+    padding: 6px 0;
+    margin-top:0px;
+    margin-bottom:0px;
+}
+
+.mui-input-group:before{
+	z-index:5;
+}
+
+.mui-input-row .inputInMiddle{
+	width:40%;
+	float:left;
+}
+
+.mui-input-row .labelOnRight{
+	float:right;
+	width:25%;
+}
+
+
+/*登录页部分的CSS样式*/
+#logincontent{
+	-webkit-transform: translate(0, 50%);
+	transform: translate(0, 50%);
+}
+
+#logincontent h2{
+	text-align: center;
+}
+
+#logincontent h2 img{
+	width: 200px;
+}
+
+#logincontent .mui-card{
+	background-color: transparent;
+	margin-top: 20px;
+	border:none;
+}
+
+#logincontent .mui-card .mui-input-group{
+	background-color: transparent;
+}
+
+#logincontent .mui-card .mui-input-group .mui-input-row{
+	background-color: #fff;
+	margin-top:10px;
+	border-radius: 6px;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border:1px solid #ddd;
+}
+
+#logincontent .mui-card .mui-input-group .mui-input-row label{
+	padding:8px 15px;
+}
+
+#logincontent .mui-card .mui-input-group .mui-input-row:after{
+	display: none;
+}
+
+#logincontent #loginBtn{
+	background-color: #4a82d1;
+	border-color: #4a82d1;
+}
+
+#logincontent #loginBtn:enabled:active{
+	background-color: #126aff;
+	border-color: #126aff;
+}
+
+/*菜单部分的样式*/
+#navtitle.mui-bar-nav {
+	background-color: #4a82d1;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+#navtitle .adp-title,
+#navtitle.mui-bar-nav a {
+	color: white;
+}
+
+#navtitle .mui-btn-link{
+	color:white;
+}
+
+#navcontent .mui-table-view{
+	/*background-color: transparent;*/
+}
+
+#navcontent img{
+	width:40px;
+}
+
+/*个人设置界面的样式*/
+#setting{
+	width:100%;
+}
+
+#setting .personAvatar{
+	width:100%;
+	margin:50px 0 30px 0;
+	text-align: center;
+}
+
+#setting .desIcon{
+	margin-right:10px;
+}
+
+#setting #avatar{
+	width:150px;
+}
+
+/*修改密码页的样式*/
+#changePwdForm{
+	margin-top: 15px;
+}
+
+/*流转信息列表页的样式*/
+#circulationPullrefresh .typeSpan{
+    max-width: 50px;
+    color:red;
+}
+
+#refreshBtn{
+	position:fixed;
+	z-index: 2;
+	background-color: rgba(0,0,0,0.3);
+	bottom:10px;
+	right:10px;
+	padding:7px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+
+#refreshBtn .refresh{
+	-webkit-transform-origin: 50%;
+            transform-origin: 50%;
+	-webkit-animation: spinner-spin 1.2s step-end infinite;
+            animation: spinner-spin 1.2s step-end infinite;
+    -webkit-animation-play-state:paused;
+            animation-play-state:paused;
+    font-weight:900;
+    font-size: 26px;
+    color:#fff;
+}
+
+#refreshBtn .refreshstart{
+	-webkit-animation-play-state:running;
+            animation-play-state:running;
+}
+
+/*流转信息详情页的样式*/
+/*dong css add*/
+.titlefonts{
+	color: #222222;
+}
+
+.listfonts{
+	color: #DD524D;
+}
+
+.lefttitfonts{
+	color: #000000;
+	line-height: 35px;
+	font-size: 16px;
+}
+
+.rightcontentfonts{
+	color: #8f8f94;
+	height: 45px;
+	font-size: 16px;
+}
+
+/*信息管理列表页的样式*/
+.statue {
+	line-height: 43px;
+}
+
+.red {
+	color: #FF0000;
+}
+
+.green {
+	color: #0daa00;
+}
+
+/*出租信息上报页的样式*/
+#infoUploadForm{
+	margin-top:15px;
+}
+
+#landDetailPart{
+	padding:10px 15px;
+}
+
+#landDetailPart .rightcontentfonts{
+	line-height: 35px;
+}
+
+/*成交信息上报页的样式*/
+#infoUploadForm .mui-row{
+	width:65%;
+	float:left;
+}
+
+#infoUploadForm .attachment{
+	float:left;
+	clear: both;
+	padding:9px 5px;
+	font-size: 17px;
+	font-weight:normal;
+	color:#4a82d1;
+	word-break: break-all;
+}
+
+#infoUploadForm div.attachment{
+	width:100%;
+}
+
+#infoUploadForm #attachment{
+	font-size: 17px;
+	height: 40px;
+    line-height: 40px;
+    color: #848282;
+    cursor:pointer;
+    padding: 0 5px;
+    float:left;
+    clear:both;
+}
+
+#infoUploadForm span.attachment:active,
+#infoUploadForm #attachment:active{
+	background-color: #ccc;
+}
+
+#infoUploadForm .delAttachment{
+    margin-right: 5px;
+    text-align: center;
+    color: red;
+    cursor:pointer;
+}

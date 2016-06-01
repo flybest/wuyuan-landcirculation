@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+	    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>土地流转管理-流转信息-detail</title>
+		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css"/>
+        <link rel="stylesheet" type="text/css" href="../../css/app.css"/>
+	</head>
+	<body> 
+		<header id="navtitle" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title adp-title">土地出租</h1>
+		</header>
+		<div class="mui-content">
+			<div class="">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell mui-media">
+						<a href="javascript:;">
+							<div class="mui-media-body">
+								<span class="listfonts" id="cirType">[土地出租]</span>
+								<span class="titlefonts" id="cirTitle">给为东北羊草的用户提个醒</span>
+								<p class='mui-ellipsis' id="cirDate">2016-04-19</p>
+							</div>
+						</a>
+					</li>
+					<li class="mui-table-view-cell mui-media">
+						<span class="lefttitfonts" id="typeContent">土地编号：</span><span class="rightcontentfonts" id="landNum">12345</span>
+					</li>
+					<li class="mui-table-view-cell mui-media">
+						<span class="rightcontentfonts" id="landInfo">土地面积：13亩；土地位置：村东；土地等级：六等地；土地类型：盐碱地；四至界限：农田</span>
+					</li>
+					<li class="mui-table-view-cell mui-media">
+						<span class="lefttitfonts">流转价格：</span><span class="rightcontentfonts" id="cirPrice">600元／年亩</span>
+					</li>
+					<li class="mui-table-view-cell mui-media">
+						<span class="lefttitfonts">流转年限：</span><span class="rightcontentfonts" id="cirPeriod">1年</span>
+					</li>
+					<li class="mui-table-view-cell mui-media">
+						<span class="lefttitfonts">信息有效期：</span><span class="rightcontentfonts" id="aviDate">30天</span>
+					</li>
+					<li class="mui-table-view-cell mui-media">
+						<span class="lefttitfonts">联系人：</span><span class="rightcontentfonts" id="contact">王一</span>
+					</li>
+					<li class="mui-table-view-cell mui-media">
+						<span class="lefttitfonts">联系方式：</span><span class="rightcontentfonts" id="tel">12311111111</span>
+					</li>
+				</ul>				
+			</div>
+		</div>
+		<script type="text/javascript" src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/app.js" ></script>
+		<script type="text/javascript" src="../../js/errorcode.js" ></script>
+		<script>
+			var wd,cirId;
+		
+			var setText = function(query, text){
+				document.querySelector(query).innerText=text;
+			};
+		
+			var initForm = function(){
+				cirId='';
+				mui('.rightcontentfonts').each(function(i,obj){
+					obj.innerText='';
+				});
+				
+				setText('#typeContent','土地编号：');
+				setText('.adp-title','');
+				setText('#cirType','');
+				setText('#cirTitle','');
+				setText('#cirDate','');
+			};
+			
+			var onSuccess = function(data){
+				//处理DOM对象，显示信息内容
+				try{
+					mui('.rightcontentfonts').each(function(i,obj){
+						obj.innerText=data[obj.getAttribute('id')];
+					});
+				}catch(e){
+					console.log(e.message);
+				    mui.toast(errorCode.BAD_DATA);
+				}
+				wd.close();
+			};
+			
+			var onError = function(errcode){
+				wd.close(); // 失败，先关闭等待的对话框  
+				switch(errcode){
+				    case 'FAILED_NETWORK':
+				        mui.toast(errorCode.FAILED_NETWORK);
+				        break;
+				    case 'INVALID_CIR':
+				    		mui.toast(errorCode.INVALID_CIR);
+				        break;
+				    default:
+				        mui.toast(errorCode.UNKNOW_ERROR);
+			   };
+			};
+			
+			(function($) {
+				$.init({});
+				$.plusReady(function(){
+					window.addEventListener('getCirDetail',function(event){
+			      		initForm();
+			      		if(event.detail.id){
+			      			cirId=event.detail.id;
+			      			setText('.adp-title',event.detail.type);
+							setText('#cirType',event.detail.type);
+							setText('#cirTitle',event.detail.title);
+							setText('#cirDate',event.detail.date);
+							if(event.detail.type.match('求租'))
+								setText('#typeContent','土地面积：');	
+							
+			      			wd = plus.nativeUI.showWaiting("获取信息中，请等待...",{back:"none"});
+			      			var params={cirId:event.detail.id};
+			      			app.webQuery(app.getcirculationdetail_url,params,onSuccess,onError,1);
+			      		}	
+			      	});
+				});
+			})(mui);
+		</script>
+	</body>
+</html>

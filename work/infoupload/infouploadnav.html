@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+	    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>土地流转管理-信息上报</title>
+		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css"/>
+        <link rel="stylesheet" type="text/css" href="../../css/app.css"/>
+	</head>
+	<body>
+		<header id="navtitle" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" href="../navigation.html"></a>
+			<h1 class="mui-title adp-title">信息上报</h1>
+		</header>
+		<div id="dcontent" class="mui-content">
+			<div class="mui-content-padded">
+				<button id='rentinfoupload' class="mui-btn mui-btn-blue mui-btn-block pay">
+					<span class="mui-icon mui-icon-compose"></span>土地出租信息上报
+				</button>
+				<button id='wantinfoupload' class="mui-btn mui-btn-blue mui-btn-block pay">
+					<span class="mui-icon mui-icon-compose"></span>土地求租信息上报
+				</button>
+				<button id='dealinfoupload' class="mui-btn mui-btn-blue mui-btn-block pay">
+					<span class="mui-icon mui-icon-compose"></span>流转成交信息上报
+				</button>
+			</div>
+		</div>
+		<script type="text/javascript" src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/app.js" ></script>
+		<script>
+			(function($, doc) {
+				$.init({
+					preloadPages:[{
+						"id": "rentinfoupload",
+						"url":app.project_url+"work/infoupload/rentinfoupload.html"
+					},{
+						"id": "wantinfoupload",
+						"url":app.project_url+"work/infoupload/wantinfoupload.html"
+					},{
+						"id": "dealinfoupload",
+						"url":app.project_url+"work/infoupload/dealinfoupload.html"
+					}],
+					statusBarBackground: '#4a82d1' 
+				});
+				$.plusReady(function() {
+					$('button').each(function(i, obj){
+						obj.addEventListener('tap',function(){
+							var viewId=obj.getAttribute('id');
+							detailPage = plus.webview.getWebviewById(viewId);
+							$.fire(detailPage,'getInfo',{id:''});
+							$.openWindow({id:viewId});
+						});
+					});
+				});
+			})(mui, document);
+		</script>
+	</body>
+</html>

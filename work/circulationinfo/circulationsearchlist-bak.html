@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>土地流转管理-流转信息-list</title>
+    <link rel="stylesheet" type="text/css" href="../../css/mui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/app.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/pullToRefresh.css" />
+</head>
+<body>
+	<div id="wrapper" class="mui-content mui-scroll-wrapper">
+		<div id="circulationPullrefresh" class='scroller'>
+			<!--数据列表-->
+			<ul class="mui-table-view">
+				<!--<li class="mui-table-view-cell mui-media">
+					<a href="javascript:;">
+						<span class="mui-media-object mui-pull-left typeSpan">[出租]</span>
+						<img class="mui-media-object mui-pull-right" src="../images/yuantiao.jpg">
+						<div class="mui-media-body">
+							远眺
+							<p class='mui-ellipsis'>静静的看这个世界，最后终于疯了</p>
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media">
+					<a href="javascript:;">
+						<span class="mui-media-object mui-pull-left typeSpan">[出租]</span>
+						<img class="mui-media-object mui-pull-right" src="../images/yuantiao.jpg">
+						<div class="mui-media-body">
+							远眺
+							<p class='mui-ellipsis'>静静的看这个世界，最后终于疯了</p>
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media">
+					<a href="javascript:;">
+						<span class="mui-media-object mui-pull-left typeSpan">[出租]</span>
+						<img class="mui-media-object mui-pull-right" src="../images/yuantiao.jpg">
+						<div class="mui-media-body">
+							远眺
+							<p class='mui-ellipsis'>静静的看这个世界，最后终于疯了</p>
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media">
+					<a href="javascript:;">
+						<span class="mui-media-object mui-pull-left typeSpan">[出租]</span>
+						<img class="mui-media-object mui-pull-right" src="../images/yuantiao.jpg">
+						<div class="mui-media-body">
+							远眺
+							<p class='mui-ellipsis'>静静的看这个世界，最后终于疯了</p>
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media">
+					<a href="javascript:;">
+						<span class="mui-media-object mui-pull-left typeSpan">[出租]</span>
+						<img class="mui-media-object mui-pull-right" src="../images/yuantiao.jpg">
+						<div class="mui-media-body">
+							远眺
+							<p class='mui-ellipsis'>静静的看这个世界，最后终于疯了</p>
+						</div>
+					</a>
+				</li>-->
+				<!--<li class="mui-table-view-cell mui-media">
+					<a href="javascript:;">
+						<span class="mui-media-object mui-pull-left typeSpan">[出租]</span>
+						<img class="mui-media-object mui-pull-right" src="../images/yuantiao.jpg">
+						<div class="mui-media-body">
+							远眺
+							<p class='mui-ellipsis'>静静的看这个世界，最后终于疯了</p>
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media">
+					<a href="javascript:;">
+						<span class="mui-media-object mui-pull-left typeSpan">[出租]</span>
+						<img class="mui-media-object mui-pull-right" src="../images/yuantiao.jpg">
+						<div class="mui-media-body">
+							远眺
+							<p class='mui-ellipsis'>静静的看这个世界，最后终于疯了</p>
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media">
+					<a href="javascript:;">
+						<span class="mui-media-object mui-pull-left typeSpan">[出租]</span>
+						<img class="mui-media-object mui-pull-right" src="../images/yuantiao.jpg">
+						<div class="mui-media-body">
+							远眺
+							<p class='mui-ellipsis'>静静的看这个世界，最后终于疯了</p>
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media">
+					<a href="javascript:;">
+						<span class="mui-media-object mui-pull-left typeSpan">[出租]</span>
+						<img class="mui-media-object mui-pull-right" src="../images/yuantiao.jpg">
+						<div class="mui-media-body">
+							远眺
+							<p class='mui-ellipsis'>静静的看这个世界，最后终于疯了</p>
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media">
+					<a href="javascript:;">
+						<span class="mui-media-object mui-pull-left typeSpan">[出租]</span>
+						<img class="mui-media-object mui-pull-right" src="../images/yuantiao.jpg">
+						<div class="mui-media-body">
+							远眺
+							<p class='mui-ellipsis'>静静的看这个世界，最后终于疯了</p>
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media">
+					<a href="javascript:;">
+						<span class="mui-media-object mui-pull-left typeSpan">[出租]</span>
+						<img class="mui-media-object mui-pull-right" src="../images/yuantiao.jpg">
+						<div class="mui-media-body">
+							远眺
+							<p class='mui-ellipsis'>静静的看这个世界，最后终于疯了</p>
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media">
+					<a href="javascript:;">
+						<span class="mui-media-object mui-pull-left typeSpan">[出租]</span>
+						<img class="mui-media-object mui-pull-right" src="../images/yuantiao.jpg">
+						<div class="mui-media-body">
+							远眺
+							<p class='mui-ellipsis'>静静的看这个世界，最后终于疯了</p>
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media">
+					<a href="javascript:;">
+						<span class="mui-media-object mui-pull-left typeSpan">[出租]</span>
+						<img class="mui-media-object mui-pull-right" src="../images/yuantiao.jpg">
+						<div class="mui-media-body">
+							远眺
+							<p class='mui-ellipsis'>静静的看这个世界，最后终于疯了</p>
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media">
+					<a href="javascript:;">
+						<span class="mui-media-object mui-pull-left typeSpan">[出租]</span>
+						<img class="mui-media-object mui-pull-right" src="../images/yuantiao.jpg">
+						<div class="mui-media-body">
+							远眺
+							<p class='mui-ellipsis'>静静的看这个世界，最后终于疯了</p>
+						</div>
+					</a>
+				</li>-->
+			</ul>
+		</div>
+		<a id="refreshBtn"><span class="mui-icon mui-icon-loop refresh"></span></a>
+	</div>
+	<script type="text/javascript" src="../../js/mui.js"></script>
+	<script type="text/javascript" src="../../js/app.js" ></script>
+	<script type="text/javascript" src="../../js/errorcode.js" ></script>
+	<script type="text/javascript" src="../../js/userinfo.js" ></script>
+	<script type="text/javascript" src="../../js/iscroll.js" ></script>
+	<script type="text/javascript" src="../../js/pullToRefresh.js" ></script>
+	<script type="text/javascript" charset="UTF-8">
+		var keyword='';
+
+		var startSearch = function(kw){
+			keyword=kw;
+			pullupRefresh() 
+		};
+		
+		var clearList = function(){
+			var table = document.body.querySelector('.mui-table-view');
+//			while(table.hasChildNodes()) 
+//				table.removeChild(table.firstChild);	
+			return table;	
+		};
+		
+      	var onDownSuccess = function(data){
+			var table = clearList();
+			try{
+				for (var i = 0; i < data.respondCount; i++) {
+					var li = document.createElement('li');
+					var img=data.cirs[i].img?'<img class="mui-media-object mui-pull-right" src="'+ data.cirs[i].img +'">':'';
+					li.className = 'mui-table-view-cell mui-media';
+					li.innerHTML = '<a id="'+ data.cirs[i].cirId +'"><span class="mui-media-object mui-pull-left typeSpan">['+data.cirs[i].cirType.substr(2)+']</span>'
+						+img+'<div class="mui-ellipsis mui-media-body"><span class="titleSpan">'+data.cirs[i].title+'</span><p class="mui-ellipsis">'+data.cirs[i].publishDate+'</p></div></a>';
+					table.insertBefore(li, table.firstChild);
+					document.querySelector('#'+data.cirs[i].cirId).addEventListener('tap',function(){
+						//这里打开详情窗口显示信息
+						detailPage = plus.webview.getWebviewById('circulationdetail');
+						var cType='土地'+this.querySelector('.typeSpan').innerText.substr(1).substr(0,2);
+						var cTitle=this.querySelector('.titleSpan').innerText;
+						var cDate=this.querySelector('.mui-ellipsis').innerText;
+						mui.fire(detailPage,'getCirDetail',{id:this.getAttribute('id'),type:cType,title:cTitle,date:cDate});
+						mui.openWindow({id:'circulationdetail'});
+					});
+				}
+			}catch(e){
+				console.log(e.message);
+			    		mui.toast(errorCode.BAD_DATA);
+			}
+			document.querySelector('.refresh').className='mui-icon mui-icon-loop refresh';
+			wrapper.refresh();
+		};
+		
+		var onDownError = function(errcode){
+		    document.querySelector('.refresh').className='mui-icon mui-icon-loop refresh';
+		    
+		    var err="";
+		    switch(errcode){
+			    case 'FAILED_NETWORK':
+			        err=errorCode.FAILED_NETWORK;
+			        break;
+			    default:
+			        err=errorCode.FAILED_LOADED;
+		    }
+	    		mui.toast(err);
+	    		wrapper.refresh();
+		};
+		
+		function pulldownRefresh() {
+			document.querySelector('.refresh').className='mui-icon mui-icon-loop refresh refreshstart';
+			var params = {keyword:keyword};
+			app.webQuery(app.getcirculations_url, params, onDownSuccess, onDownError, 1);
+		};
+
+		var onUpSuccess = function(data){
+			var table = clearList();
+			try{
+				for (var i = 0; i < data.respondCount; i++) {
+					var li = document.createElement('li');
+					var img=data.cirs[i].img?'<img class="mui-media-object mui-pull-right" src="'+ data.cirs[i].img +'">':'';
+					li.className = 'mui-table-view-cell mui-media';
+					li.innerHTML = '<a id="'+ data.cirs[i].cirId +'"><span class="mui-media-object mui-pull-left typeSpan">['+data.cirs[i].cirType.substr(2)+']</span>'
+						+img+'<div class="mui-ellipsis mui-media-body"><span class="titleSpan">'+data.cirs[i].title+'</span><p class="mui-ellipsis">'+data.cirs[i].publishDate+'</p></div></a>';
+					table.appendChild(li);
+					document.querySelector('#'+data.cirs[i].cirId).addEventListener('tap',function(){
+						//这里打开详情窗口显示信息
+						detailPage = plus.webview.getWebviewById('circulationdetail');
+						var cType='土地'+this.querySelector('.typeSpan').innerText.substr(1).substr(0,2);
+						var cTitle=this.querySelector('.titleSpan').innerText;
+						var cDate=this.querySelector('.mui-ellipsis').innerText;
+						mui.fire(detailPage,'getCirDetail',{id:this.getAttribute('id'),type:cType,title:cTitle,date:cDate});
+						mui.openWindow({id:'circulationdetail'});
+					});
+				} 
+			}catch(e){
+				console.log(e.message);
+			    		mui.toast(errorCode.BAD_DATA);
+			}
+			document.querySelector('.refresh').className='mui-icon mui-icon-loop refresh';
+			wrapper.refresh();
+		};
+		 
+		var onUpError = function(errcode){
+		    document.querySelector('.refresh').className='mui-icon mui-icon-loop refresh';
+		    
+		    var err="";
+		    switch(errcode){
+			    case 'FAILED_NETWORK':
+			        err=errorCode.FAILED_NETWORK;
+			        break;
+			    default:
+			        err=errorCode.FAILED_LOADED;
+		    }
+	    		mui.toast(err);
+	    		wrapper.refresh();
+		}; 
+ 
+		function pullupRefresh() {
+			document.querySelector('.refresh').className='mui-icon mui-icon-loop refresh refreshstart';
+			var params = {keyword:keyword};
+			app.webQuery(app.getcirculations_url, params, onUpSuccess, onUpError, 1);
+		};
+
+      	(function($, doc) {
+			$.init({});
+			
+			$.plusReady(function() {
+				
+				refresher.init({
+					id:"wrapper",
+					pullDownAction:pulldownRefresh,                                                            
+					pullUpAction:pullupRefresh 																			
+				});
+				
+				document.getElementById('refreshBtn').addEventListener('tap',function(){
+					keyword='';
+					pullupRefresh()
+				});
+				
+				setTimeout(function() {
+					pullupRefresh() 
+				}, 500); 
+			});
+		})(mui, document);
+
+    </script>
+</body>
+</html>

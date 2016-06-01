@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>土地流转管理-求租信息上报</title>
+		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/mui.picker.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/app.css" />
+	</head>
+
+	<body>
+		<header id="navtitle" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title adp-title">求租信息上报</h1>
+		</header>
+		<div id="infoUploadForm" class="mui-content">
+			<div id="wantInfoPart" class="mui-input-group workBlock">
+				<div class="mui-input-row">
+					<label>标题<span class="redFont">*</span></label>
+					<input id="cirTitle" type="text" placeholder="请输入标题">
+				</div>
+				<div class="mui-input-row">
+					<label>流转方式<span class="redFont">*</span></label>
+					<input id="cirType" type="text" placeholder="请输入流转方式" value="土地求租" readonly>
+				</div>
+				<div class="mui-input-row">
+					<label>土地面积<span class="redFont">*</span></label>
+					<input id="landArea" type="text" placeholder="请输入土地面积" class='inputInMiddle'>
+					<label class='labelOnRight'>亩</label>
+				</div>
+				<div class="mui-input-row" style="height:auto;">
+					<label>相关要求</label>
+					<textarea id="relDemond" rows="5" placeholder="请输入相关要求"></textarea>
+				</div>
+				<div class="mui-input-row">
+					<label>求租价格<span class="redFont">*</span></label>
+					<input id="cirPrice" type="text" placeholder="请输入流转价格" class='inputInMiddle'>
+					<label class='labelOnRight'>元/年亩</label>
+				</div>
+				<div class="mui-input-row">
+					<label>求租年限<span class="redFont">*</span></label>
+					<input id="cirPeriod" type="text" placeholder="请输入流转年限" class='inputInMiddle'>
+					<label class='labelOnRight'>年</label>
+				</div>
+				<div class="mui-input-row">
+					<label>信息有效期<span class="redFont">*</span></label>
+					<input id="aviDate" type="text" placeholder="请输入信息有效期" class='inputInMiddle'>
+					<label class='labelOnRight'>天</label>
+				</div>
+			</div>
+			<div id="contactInfoPart" class="mui-input-group workBlock">
+				<div class="mui-input-row">
+					<label>联系人<span class="redFont">*</span></label>
+					<input id="contact" type="text" placeholder="请输入联系人">
+				</div>
+				<div class="mui-input-row">
+					<label>联系方式<span class="redFont">*</span></label>
+					<input id="tel" type="text" placeholder="请输入联系方式">
+				</div>
+			</div>
+			<button id='submitBtn' class="mui-btn mui-btn-block mui-btn-success">提交</button>
+		</div>
+		<script type="text/javascript" src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/mui.picker.min.js"></script>
+		<script type="text/javascript" src="../../js/app.js" ></script>
+		<script type="text/javascript" src="../../js/errorcode.js" ></script>
+		<script type="text/javascript" src="../../js/cirtype.data.js" ></script>
+		<script type="text/javascript" src="../../js/userinfo.js" ></script>
+		<script>
+			var wd, infoId='', infoStatue;
+		
+			/*初始化页面控件，全部清空*/
+			var initForm = function(){ 
+				infoId='';
+				infoStatue='';
+				
+				mui('input').each(function(i,obj){
+					obj.value='';
+				});
+
+				mui('textarea').each(function(i,obj){
+					obj.value='';
+				});
+				
+				document.getElementById('submitBtn').style.display='';
+				app.setValue('cirType','土地求租');
+			}; 
+			
+			var onSuccess = function(data){
+				//处理DOM对象，显示信息内容
+				try{
+					mui('input').each(function(i,obj){
+						obj.value=data[obj.getAttribute('id')];
+					});
+					
+					mui('textarea').each(function(i,obj){
+						obj.value=data[obj.getAttribute('id')];
+					});
+				}catch(e){
+					console.log(e.message);
+				    mui.toast(errorCode.BAD_DATA);
+				}
+				if(infoStatue.match('已发布') || infoStatue.match('待审核')){
+					document.getElementById('submitBtn').style.display='none';
+				}
+				wd.close();				
+			};
+			
+			var onError = function(errcode){
+				wd.close(); // 失败，先关闭等待的对话框  
+				switch(errcode){
+				    case 'FAILED_NETWORK':
+				        mui.toast(errorCode.FAILED_NETWORK);
+				        break;
+				    default:
+				        mui.toast(errorCode.UNKNOW_ERROR);
+			   };
+			};
+			
+			var onSubmitSuccess = function(data){
+				wd.close(); 
+				mui.toast('提交成功');
+				var detailPage = plus.webview.getWebviewById('cirsearchlist');
+				if(infoId && infoId!=''){
+					mui.fire(detailPage,'updateItem',{infoId:infoId,statue:'待审核',title:app.getValue('cirTitle'),type:app.getValue('cirType')});
+				}else{
+					mui.fire(detailPage,'startGetData',{});
+				}
+				mui.back(true);
+			};
+		
+			var onSubmitError = function(errcode){
+				onError(errcode);
+			};
+
+			(function($, doc) {
+				$.init({});
+				$.plusReady(function() {
+					
+					var realBack= function(){
+						if (typeof $.options.beforeback === 'function') {
+							if ($.options.beforeback() === false) {
+								return;
+							}
+						}
+						$.doAction('backs');
+					};
+					
+					$.back= function(noConfirm){
+						if(!noConfirm && (infoStatue==''||infoStatue.match('已退回'))){
+							var btn = ["确定","取消"];
+							$.confirm('确认放弃编辑？','提示',btn,function(e){
+								if(e.index==0){
+									realBack();
+								}
+							});
+							return;
+						}
+						
+						realBack();
+					};
+					
+					window.addEventListener('getInfo',function(event){
+			      		initForm();
+			      		if(event.detail.id){
+			      			infoId=event.detail.id;
+			      			infoStatue=event.detail.statue;
+			      			wd = plus.nativeUI.showWaiting("获取信息中，请等待...",{back:"none"});
+			      			var params={infoId:event.detail.id};
+			      			app.webQuery(app.getwantinfo_url,params,onSuccess,onError,1);
+			      		}	
+			      	});
+	      	
+					/*保存按钮响应*/
+					doc.getElementById('submitBtn').addEventListener('tap',function(){
+						var cirTitle= app.getValue('cirTitle');
+						var landArea= app.getValue('landArea');
+						var relDemond= app.getValue('relDemond');
+						var cirPrice= app.getValue('cirPrice');
+						var cirPeriod =app.getValue('cirPeriod');
+						var aviDate = app.getValue('aviDate');
+						var contact =app.getValue('contact');
+						var tel =app.getValue('tel');
+						
+						if(!cirTitle){
+							mui.toast(errorCode.EMPTY_CIRTITLE);
+							return;
+						};
+						
+						if(!landArea){
+							mui.toast(errorCode.EMPTY_LANDAREA);
+							return;
+						};
+						
+						if(!cirPrice){
+							mui.toast(errorCode.EMPTY_CIRPRICE);
+							return;
+						};
+						
+						if(!cirPeriod){
+							mui.toast(errorCode.EMPTY_CIRPERIOD);
+							return;
+						};
+						
+						if(!aviDate){
+							mui.toast(errorCode.EMPTY_AVIDATE);
+							return;
+						};
+						
+						if(!contact){
+							mui.toast(errorCode.EMPTY_CONTACT);
+							return;
+						};
+						
+						if(!tel){
+							mui.toast(errorCode.EMPTY_TEL);
+							return;
+						};
+						
+						wd = plus.nativeUI.showWaiting("信息提交中，请等待...",{back:"none"});
+		      			var params={account:userInfo.username(),realName:userInfo.realname(),infoId:infoId, cirTitle:cirTitle, cirType:"06", landArea:landArea, relDemond:relDemond, cirPrice:cirPrice, cirPeriod:cirPeriod, aviDate:aviDate, contact:contact, tel:tel};
+		      			app.webQuery(app.savewantinfo_url,params,onSubmitSuccess,onSubmitError,1);
+					});					
+				});
+			})(mui, document);
+		</script>
+	</body>
+
+</html>

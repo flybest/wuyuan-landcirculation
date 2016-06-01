@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>土地流转管理-导航</title>
+    <link rel="stylesheet" type="text/css" href="css/mui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/app.css"/>
+</head>
+<body>
+	<header id="navtitle" class="mui-bar mui-bar-nav">
+		<h1  class="mui-title adp-title">菜单</h1>
+		<a data-page="setting" class="mui-icon mui-icon-gear mui-pull-right"></a>
+	</header>
+	<div id="navcontent" class="mui-content">
+		<ul class="mui-table-view mui-grid-view mui-grid-9">
+            <!--<li class="mui-table-view-cell mui-media mui-col-xs-6">
+            		<a data-page="">
+	                <span class=""><img src="img/news.png" width="50" height="50" /> </span>
+	                <div class="mui-media-body">通知公告</div>
+            		</a>
+            </li>
+            <li class="mui-table-view-cell mui-media mui-col-xs-6">
+            		<a data-page="">
+	                <span class=""><img src="img/warninginfo.png" width="50" height="50" /> </span>
+	                <div class="mui-media-body">农情预警</div>
+            		</a>
+            </li>-->
+             <li class="mui-table-view-cell mui-media mui-col-xs-6">
+            		<a data-page="circulationsearch">
+	                <span class=""><img src="img/changeinfo.png" width="50" height="50" /> </span>
+	                <div class="mui-media-body">流转信息</div>
+            		</a>
+            </li>
+             <li class="mui-table-view-cell mui-media mui-col-xs-6">
+            		<a data-page="infouploadnav">
+	                <span class=""><img src="img/upinfo.png" width="50" height="50" /> </span>
+	                <div class="mui-media-body">信息上报</div>
+            		</a>
+            </li>
+             <li class="mui-table-view-cell mui-media mui-col-xs-6">
+            		<a data-page="infosearch">
+	                <span class=""><img src="img/manageinfo.png" width="50" height="50" /> </span>
+	                <div class="mui-media-body">信息管理</div>
+            		</a>
+            </li>
+        </ul> 
+	</div>
+	<script type="text/javascript" src="js/mui.min.js"></script>
+	<script type="text/javascript" src="js/app.js" ></script>
+	<script type="text/javascript">
+		(function($){
+			$.init({
+				preloadPages:[{
+					"id": "setting",
+					"url":app.project_url+"setting.html"
+				},{
+					"id": "circulationsearch",
+					"url":app.project_url+"work/circulationinfo/circulationsearch.html",
+					"subpages":[{
+						"id":"circulationsearchlist",
+						"url" : app.project_url+"work/circulationinfo/circulationsearchlist.html",
+						"styles":{
+							"top":"44px",
+							"bottom":"0px"
+						}
+					}]
+				},{
+					"id": "infosearch",
+					"url":app.project_url+"work/infomanagement/infosearch.html",
+					"subpages":[{
+						"id":"cirsearchlist",
+						"url" : app.project_url+"work/infomanagement/cirsearchlist.html",
+						"styles":{
+							"top":"104px",
+							"bottom":"0px"
+						},
+						"show":{
+							"autoShow":false
+						}
+					},{
+						"id":"dealsearchlist",
+						"url" : app.project_url+"work/infomanagement/dealsearchlist.html",
+						"styles":{
+							"top":"104px",
+							"bottom":"0px"
+						},
+						"show":{
+							"autoShow":false
+						}
+					}]
+				},{
+					"id": "infouploadnav",
+					"url":app.project_url+"work/infoupload/infouploadnav.html"
+				}],
+				statusBarBackground: '#4a82d1' 
+			});
+			
+			$.plusReady(function(){
+				$("body").on('tap','a',function(e){
+					var pageId = this.getAttribute("data-page");
+
+					switch(pageId){
+					    case 'circulationsearch':
+					    	var detailPage = plus.webview.getWebviewById('circulationsearchlist');
+							$.fire(detailPage,'startGetData',{});
+					        break;
+					    case 'infosearch':
+					        var detailPage1 = plus.webview.getWebviewById('cirsearchlist');
+					        var detailPage2 = plus.webview.getWebviewById('dealsearchlist');
+							$.fire(detailPage1,'startGetData',{});
+							$.fire(detailPage2,'startGetData',{});
+					        break;
+				    }
+					
+					setTimeout(function() {
+						$.openWindow({
+							id: pageId,
+							show: {
+								aniShow: 'pop-in'
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					}, 0);
+				}); 
+				
+				$.back = function(){
+					var btn = ["确定","取消"];
+					$.confirm('确认退出应用？','提示',btn,function(e){
+						if(e.index==0){
+							//执行mui封装好的窗口关闭逻辑；
+							plus.runtime.quit();
+						}
+					});
+				};
+			});
+		}(mui));
+	</script>
+</body>
+</html>

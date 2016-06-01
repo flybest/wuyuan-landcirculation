@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>土地流转管理-个人设置</title>
+    <link rel="stylesheet" type="text/css" href="css/mui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/app.css"/>
+    
+</head>
+<body>
+	<header id="navtitle" class="mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<h1  class="mui-title adp-title">个人设置</h1>
+	</header>
+	<div class="mui-content">
+		<div id="setting">
+			<div class="personAvatar">
+				<img id='avatar' src="img/avatar-default.png" alt="照片"/>
+				<h4 id='realName'>你好，张三</h4>
+			</div>
+			<div class="personInfo">
+				<ul class="mui-table-view">
+					 <li class="mui-table-view-cell"><span class="desIcon mui-icon mui-icon-person"></span>用户名<span class="mui-pull-right" id='userName'>zhangsan</span></li>
+			         <li class="mui-table-view-cell"><span class="desIcon mui-icon mui-icon-phone"></span>工作电话<span class="mui-pull-right" id='tel'>13811100022</span></li>
+			         <!--<li class="mui-table-view-cell"><span class="desIcon mui-icon mui-icon-map"></span>负责区域<span class="mui-pull-right" id='region'>五原县，XX村</span></li>-->
+			         <li class="mui-table-view-cell"><a class="mui-navigate-right" id='changepwd'><span class="desIcon mui-icon mui-icon-locked"></span>修改密码</a></li>
+				</ul>
+			</div>
+			<button id='logoutBtn' class="mui-btn mui-btn-block mui-btn-danger">退出当前用户</button>
+		</div>
+	</div>
+	<script type="text/javascript" src="js/mui.min.js"></script>
+	<script type="text/javascript" src="js/app.js" ></script>
+	<script type="text/javascript" src="js/userinfo.js" ></script>
+	<script type="text/javascript" src="js/errorcode.js" ></script>
+	<script type="text/javascript" charset="UTF-8">
+		(function($){
+      		$.init({
+      			preloadPages:[{
+					"id": "changepwd",
+					"url":app.project_url+"changepwd.html"
+				}],
+      			statusBarBackground: '#4a82d1' 
+			});
+			
+			$.plusReady(function(){
+		      	initForm();
+		      	
+		      	document.getElementById('changepwd').addEventListener('tap',function(){
+		      		toChangepwd();
+		      	});
+		      	
+		      	document.getElementById('logoutBtn').addEventListener('tap',function(){
+		      		var btn = ["确定","取消"];
+					$.confirm('确认注销当前用户？','提示',btn,function(e){
+						if(e.index==0){
+							toLogin();
+						}
+					});
+		      	});
+		      	
+		      	document.getElementById('avatar').addEventListener('tap',function(){
+		      		var img=this;
+		      		plus.gallery.pick(function(path){
+			    		if(0!=path.indexOf("file://")){
+							path="file://"+path;
+						}
+			    		plus.zip.compressImage({
+							src:path,
+							dst:"_www/a.jpg",
+							width:"500px",		// 缩小到500像素
+							overwrite:true
+						},
+						function(event) {
+							uploadAvatar("_www/a.jpg");
+						},function(error) {
+							mui.toast(errorCode.FAILED_COMPRESSIMG);
+						});	
+				    }, function ( e ) {
+				    		
+				    }, {filter:"image",system:true} );
+		      	});
+			});
+		}(mui));
+		
+		var initForm = function(){
+			if(userInfo.avatarurl())
+				document.getElementById('avatar').setAttribute('src',userInfo.avatarurl());
+			document.getElementById('realName').innerText='你好，'+userInfo.realname();
+			document.getElementById('userName').innerText=userInfo.username();
+			document.getElementById('tel').innerText=userInfo.tel();
+			//document.getElementById('region').innerText=userInfo.userregionname();
+		};
+		
+		var toLogin = function() {
+			app.toWindow('login',function(){
+		    		userInfo.clear();
+		    },function(){
+				mui.toast('注销用户成功');
+			});
+		};
+		
+		var toChangepwd = function() {
+			app.toWindow('changepwd');
+		};
+		
+		var uploadAvatar = function(filePath){
+			var wt = plus.nativeUI.showWaiting("头像上传中，请等待...", {back:"none"});
+			var currentUrl=plus.webview.currentWebview().getURL();
+			var task=plus.uploader.createUpload(currentUrl.substr(0,currentUrl.lastIndexOf('/')+1) + app.avatarupload_url,
+				{method:"POST"},
+				function(t, status){ //上传完成
+					if(status==200){
+						wt.close();
+						mui.toast("上传成功");
+						
+						setTimeout(function() {
+							userInfo.avatarurl(app.avatar_url +'?account='+userInfo.username());
+							document.getElementById('avatar').setAttribute('src', app.avatar_url +'?account='+userInfo.username()+'&rand='+Math.random());
+						}, 0);
+					}else{
+						wt.close();
+						mui.toast(errorCode.FAILED_UPLOAD + ":" + status);
+					}
+				}
+			);
+			task.addData("account", userInfo.username());
+			task.addFile(filePath, {key:userInfo.username()});
+			task.start();
+		};
+    </script>
+</body>
+</html>

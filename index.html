@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>土地流转管理-首页</title>
+    <link rel="stylesheet" href="css/mui.min.css" />
+</head>
+<body>
+	<div class="mui-content">
+	</div>
+	<script type="text/javascript" src="js/mui.min.js" ></script>
+	<script type="text/javascript" src="js/userinfo.js" charset="utf-8"></script>
+	<script type="text/javascript" src="js/errorcode.js" charset="utf-8"></script>
+	<script type="text/javascript" src="js/app.js" ></script>
+	<script type="text/javascript" charset="UTF-8">
+      	(function($){
+      		$.init({
+      			statusBarBackground: '#4a82d1' 
+			});
+			
+			$.plusReady(function() {
+				plus.navigator.setStatusBarBackground('#4a82d1');
+				plus.screen.lockOrientation("portrait-primary");
+				
+				/*预加载登陆界面*/
+				var loginPage = $.preload({
+					"id": 'login',
+					"url": app.project_url+'login.html'
+				});
+				/*预加载菜单页*/
+				var navPage = $.preload({
+					"id": 'navigation',
+					"url": app.project_url+'navigation.html'
+				});
+				
+				var toLogin = function() {
+					app.toWindow('login',function(){
+				    		userInfo.clear();
+				    },function(){
+						plus.navigator.closeSplashscreen();
+					});
+				};
+				var toNav = function() {
+					app.toWindow('navigation',function(){},function(){
+						plus.navigator.closeSplashscreen();
+					});
+				};
+				
+				var onSuccess = function(data){
+					toNav();
+				};
+				var onError = function(errcode){
+				    switch(errcode){
+					    case 'FAILED_NETWORK':
+					        mui.toast(errorCode.FAILED_NETWORK_VALIDATE);
+					        break;
+					    case 'INVALID_TOKEN':
+					    		mui.toast(errorCode.INVALID_TOKEN);
+					        break;
+					    default:
+					        mui.toast(errorCode.UNKNOW_ERROR);
+				    }
+				    
+				    toLogin();
+				};
+
+				var token = userInfo.token() || "";
+				var username = userInfo.username() || "";
+				if(token && username){
+					//存在username token，去服务端验证
+					var params = {account:username, tok:token};
+					app.webQuery(app.tokencheck_url, params, onSuccess, onError, 1);
+				}else{
+					toLogin();
+				}
+			});
+      	}(mui));
+    </script>
+</body>
+</html>

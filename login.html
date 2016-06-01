@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>土地流转管理-登录</title>
+    <link rel="stylesheet" type="text/css" href="css/mui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/iconfont.css"/>
+    <link rel="stylesheet" type="text/css" href="css/app.css"/>
+</head>
+<body>
+	<div id="logincontent" class="mui-content">
+		<h2>土地流转管理</h2>
+		<div class="mui-card">
+			<form id="login-form" class="mui-input-group">
+				<div class="mui-input-row">
+					<label><span class="mui-icon iconfont icon-zhanghao"></span></label>
+					<input id="userName" type="text" class="mui-input-clear" value="" placeholder="请输入用户名" />
+				</div>
+				<div class="mui-input-row">
+					<label><span class="mui-icon iconfont icon-mimaxiugai"></span></label>
+					<input id="password" type="password" class="mui-input-clear" value="" placeholder="请输入密码" />
+				</div>
+			</form>
+			<button id='loginBtn' class="mui-btn mui-btn-block mui-btn-primary">登录</button>
+		</div>
+	</div>	
+	<script type="text/javascript" src="js/mui.min.js"></script>
+	<script type="text/javascript" src="js/mui.enterfocus.js" ></script>
+	<script type="text/javascript" src="js/errorcode.js" charset="utf-8"></script>
+	<script type="text/javascript" src="js/userinfo.js" charset="utf-8"></script>
+	<script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/md5.js"></script>
+	<script type="text/javascript">
+		(function($, doc) {
+			$.init({
+				statusBarBackground: '#4a82d1' 
+			});
+			$.plusReady(function() {
+				plus.navigator.setStatusBarBackground('#4a82d1');
+				var loginButton = doc.getElementById('loginBtn');
+				var accountBox = doc.getElementById('userName');
+				var passwordBox = doc.getElementById('password');
+				loginButton.addEventListener('tap', function(event) {
+					var loginInfo = {
+						account: accountBox.value,
+						password: passwordBox.value
+					};
+					app.validateLogin(loginInfo, function(err) {
+						if (err) {
+							mui.toast(err);
+							return;
+						}
+						var wd = plus.nativeUI.showWaiting("登录中，请等待...",{back:"none"}); 
+						loginInfo.password=hex_md5(loginInfo.password);
+						//var data=JSON.stringify(loginInfo);
+						app.webQuery(app.login_url,loginInfo,function(stk){
+							userInfo.username(loginInfo.account);
+							userInfo.token(stk.token);
+							userInfo.realname(stk.realname);
+							if(stk.avatarurl=='ok')
+								userInfo.avatarurl(app.avatar_url +'?account='+loginInfo.account);
+							userInfo.tel(stk.tel);
+							wd.close(); // 登录成功，跳转窗口前关闭等待的对话框
+							toNav();
+						},function(dc){
+							wd.close(); // 登录失败，先关闭等待的对话框  
+							switch(dc){
+							    case 'FAILED_NETWORK':
+							        mui.toast(errorCode.FAILED_NETWORK);
+							        break;
+							    case 'INVALID_TOKEN':
+							    		mui.toast(errorCode.INVALID_TOKEN);
+							        break;
+						        case 'INVALID_USER':
+							    		mui.toast(errorCode.INVALID_USER);
+							        break;
+						        case 'INVALID_PASSWORD':
+							    		mui.toast(errorCode.INVALID_PASSWORD);
+							        break;
+							    default:
+							        mui.toast(errorCode.UNKNOW_ERROR);
+						    }
+						},1)
+					});
+				});
+				
+				var toNav = function() {
+					app.toWindow('navigation',function(){},function(){
+						accountBox.value='';
+						passwordBox.value='';
+					});
+				};
+				
+				/*输入用户名后点击键盘开始键会自动聚焦到密码栏*/
+				$.enterfocus('#login-form input', function() {
+					$.trigger(loginButton, 'tap');
+				});
+				
+				$.back = function(){
+					var btn = ["确定","取消"];
+					$.confirm('确认退出应用？','提示',btn,function(e){
+						if(e.index==0){
+							//执行mui封装好的窗口关闭逻辑；
+							plus.runtime.quit();
+						}
+					});
+				};
+			});
+		}(mui, document));
+	</script>
+</body>
+</html>

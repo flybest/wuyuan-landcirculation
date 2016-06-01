@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>土地流转管理-成交信息上报</title>
+		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/mui.picker.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/app.css" />
+	</head>
+	<body>
+		<header id="navtitle" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title adp-title">成交信息上报</h1>
+		</header>
+		<div id="infoUploadForm" class="mui-content">
+			<div id="landSearchPart" class="mui-input-group workBlock">
+				<div class="mui-input-row">
+					<label>土地所在地</label>
+					<button id='landRegion' class="mui-btn mui-btn-block mui-text-left buttonOnRight" type='button'>请选择土地所在地</button>
+				</div>
+				<div class="mui-input-row">
+					<label>土地所有人</label>
+					<input id="landHolder" type="text" placeholder="请输入土地所有人">
+				</div>
+			</div>
+			<button id='searchBtn' class="mui-btn mui-btn-success" style="width:100%;">查询</button>
+			<div id="landBlock" class="mui-content-padded" style="height:20px;">
+				<h5 class="mui-pull-left">请选择相关土地</h5>
+			</div>
+			<div id="landInfoPart" class="mui-input-group workBlock">
+				<button id='landNum' class="mui-btn mui-btn-block buttonSingleLine" type='button'>请选择地块</button>				
+			</div>
+			<div id="landDetailPart" class="mui-input-group workBlock">
+				<div><span class="lefttitfonts">土地面积：</span><span class="rightcontentfonts" id="landArea">13亩</span></div>
+				<div><span class="lefttitfonts">土地位置：</span><span class="rightcontentfonts" id="landPos">村东</span></div>
+				<div><span class="lefttitfonts">土地等级：</span><span class="rightcontentfonts" id="landLevel">六等地</span></div>
+				<div><span class="lefttitfonts">土地类型：</span><span class="rightcontentfonts" id="landType">盐碱地</span></div>
+				<div><span class="lefttitfonts">四至界限：</span><span class="rightcontentfonts" id="landLimit">左边是农田,左边是农田,左边是农田,左边是农田</span></div>
+			</div>
+			<div id="infoBlock" class="mui-content-padded" style="height:20px;">
+				<h5 class="mui-pull-left">请填写以下信息</h5>
+			</div>
+			<div id="dealInfoPart" class="mui-input-group workBlock">
+				<div class="mui-input-row">
+					<label>流转方式<span class="redFont">*</span></label>
+					<button id='cirType' class="mui-btn mui-btn-block mui-text-left buttonOnRight" type='button'>请选择流转方式</button>
+				</div>
+				<div class="mui-input-row">
+					<label>流转年限<span class="redFont">*</span></label>
+					<input id="cirPeriod" type="text" placeholder="请输入流转年限" class='inputInMiddle'>
+					<label class='labelOnRight'>年</label>
+				</div>
+				<div class="mui-input-row">
+					<label>成交价格<span class="redFont">*</span></label>
+					<input id="cirPrice" type="text" placeholder="请输入成交价格" class='inputInMiddle'>
+					<label class='labelOnRight'>元/年亩</label>
+				</div>
+				<div class="mui-input-row">
+					<label>合同号<span class="redFont">*</span></label>
+					<input id="contractNum" type="text" placeholder="请输入信息有效期">
+				</div>
+				<div class="mui-input-row" style="height:auto;">
+				<label>附件</label>
+				<div class="mui-row">
+					<span id="attachment" class="mui-icon mui-icon-plus"> 点击新增附件</span>
+				</div>
+			</div>
+			</div>
+			<div id="contactInfoPart">
+				<div class="mui-content-padded" style="height:20px;">
+					<h5 class="mui-pull-left">请填写<span class="red">流出方</span>信息</h5>
+				</div>
+				<div class="mui-input-group workBlock">
+					<div class="mui-input-row">
+						<label>联系人<span class="redFont">*</span></label>
+						<input id="contactOut" type="text" placeholder="请输入联系人">
+					</div>
+					<div class="mui-input-row">
+						<label>联系方式<span class="redFont">*</span></label>
+						<input id="telOut" type="text" placeholder="请输入联系方式">
+					</div>
+				</div>
+				<div class="mui-content-padded" style="height:20px;">
+					<h5 class="mui-pull-left">请填写<span class="red">流入方</span>信息</h5>
+				</div>
+				<div class="mui-input-group workBlock">
+					<div class="mui-input-row">
+						<label>联系人<span class="redFont">*</span></label>
+						<input id="contactIn" type="text" placeholder="请输入联系人">
+					</div>
+					<div class="mui-input-row">
+						<label>联系方式<span class="redFont">*</span></label>
+						<input id="telIn" type="text" placeholder="请输入联系方式">
+					</div>
+				</div>
+			</div>
+			<button id='submitBtn' class="mui-btn mui-btn-block mui-btn-success">提交</button>
+		</div>
+		<script type="text/javascript" src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/mui.picker.min.js"></script>
+		<script type="text/javascript" src="../../js/app.js" ></script>
+		<script type="text/javascript" src="../../js/errorcode.js" ></script>
+		<script type="text/javascript" src="../../js/city.data.js" ></script>
+		<script type="text/javascript" src="../../js/cirtype.data.js" ></script>
+		<script type="text/javascript" src="../../js/userinfo.js" ></script>
+		<script>
+			var stepBlock=['landBlock','landInfoPart','landDetailPart','infoBlock','dealInfoPart','contactInfoPart', 'submitBtn'];
+			var wd, infoId='', infoStatue='';
+			var landPicker = new mui.PopPicker();
+
+			//设置特定块的显隐
+			var setBlockVisiable = function(isShow){
+				stepBlock.forEach(function(element, index, array){
+					document.getElementById(element).style.display=isShow?'':'none';
+				});
+			};
+		
+			/*初始化页面控件，全部清空*/
+			var initForm = function(){ 
+				infoId='';
+				infoStatue='';
+				
+				document.getElementById('landRegion').innerHTML="请选择土地所在地";
+				document.getElementById('landRegion').value="";
+				document.getElementById('landNum').innerHTML="请选择地块";
+				document.getElementById('landNum').value="";
+				document.getElementById('cirType').innerHTML="请选择流转方式";
+				document.getElementById('cirType').value="";
+
+				mui('input').each(function(i,obj){
+					obj.value='';
+				});
+
+				mui('.rightcontentfonts').each(function(i,obj){
+					obj.innerText='';
+				});
+				
+				var attachContainer=document.getElementById('attachment').parentNode;
+				mui('.attachment').each(function(i,obj){
+					attachContainer.removeChild(obj);
+				});
+				
+				
+				landPicker.setData([]);
+				
+				document.getElementById('searchBtn').style.display='';
+				setBlockVisiable(false);
+			}; 
+			
+			var checkLandSearchPart = function(){
+				var landRegion = app.getValue('landRegion');
+				var landHolder = app.getValue('landHolder');
+				
+				if(!landRegion){
+					mui.toast(errorCode.EMPTY_LANDRREGION);
+					return false;
+				}
+				
+				if(!landHolder){
+					mui.toast(errorCode.EMPTY_LANDHOLDER);
+					return false;
+				}
+				
+				return true;
+			};
+			
+			var addAttachment =function(attach){
+				var attachContainer=document.getElementById('attachment').parentNode;
+				var span=document.createElement('span');
+				span.className='attachment';
+				span.innerHTML='<i class="mui-icon mui-icon-paperclip"></i>'+attach.display;
+				span.setAttribute('data-url',attach.url);
+				attachContainer.insertBefore(span,attachContainer.firstChild);
+				span.addEventListener('tap',function(){
+					/*使用系统浏览器处理，感觉更好一些*/
+					var currentUrl=plus.webview.currentWebview().getURL();
+					plus.runtime.openURL(currentUrl.substr(0,currentUrl.lastIndexOf('/')+1)+app.filedownload_url+'?attaid='+this.getAttribute('data-url'));
+				});
+			};
+			
+			var uploadAttachment = function(fId){
+				var newAttachmentList=mui('div.attachment');
+				if(newAttachmentList.length==0){
+					wd.close();
+					mui.toast('提交成功');
+					var detailPage = plus.webview.getWebviewById('dealsearchlist');
+					if(infoId && infoId!=''){
+						mui.fire(detailPage,'updateItem',{infoId:infoId,statue:'待审核',holder:app.getValue('landHolder'),num:app.getValue('landNum')});
+					}else{
+						mui.fire(detailPage,'startGetData',{});
+					}
+					mui.back(true);
+					return;
+				}
+				
+				wd.setTitle('附件提交中，请等待...');
+				var currentUrl=plus.webview.currentWebview().getURL();
+				var task=plus.uploader.createUpload(currentUrl.substr(0,currentUrl.lastIndexOf('/')+1) + app.fileupload_url,
+					{method:"POST"},
+					function(t, status){ //上传完成
+						if(status==200){
+							wd.close();
+							mui.toast("上传成功");
+						}else{
+							wd.close();
+							mui.toast(errorCode.FAILED_UPLOAD + ":" + status);
+						}
+						var detailPage = plus.webview.getWebviewById('dealsearchlist');
+						if(infoId && infoId!=''){
+							mui.fire(detailPage,'updateItem',{infoId:infoId,statue:'待审核',holder:app.getValue('landHolder'),num:app.getValue('landNum')});
+						}else{
+							mui.fire(detailPage,'startGetData',{});
+						}
+						mui.back(true);
+					}
+				);
+				
+				task.addData("infoId", fId);
+				task.addData('fileCount',newAttachmentList.length.toString());
+				
+				mui('div.attachment').each(function(i,obj){
+					task.addFile(obj.getAttribute('data-url'), {key:'attachment'+i});
+				});
+	
+				task.start();
+			};
+			
+			var onSuccess = function(data){
+				//处理DOM对象，显示信息内容
+				try{
+					mui('input').each(function(i,obj){
+						obj.value=data[obj.getAttribute('id')];
+					});
+
+					app.setValue('landRegion',data.landRegion);
+					app.setValue('landNum',data.landNum);
+					app.setValue('cirType',data.cirType);
+					document.getElementById('landRegion').innerText=data.landRegionName;
+					document.getElementById('landNum').innerText=data.landNum;
+					document.getElementById('cirType').innerText=app.getTextByValue(cirtype,data.cirType);
+					
+					mui('.rightcontentfonts').each(function(i,obj){
+						obj.innerText=data[obj.getAttribute('id')];
+					});
+					
+					for(var i=0; i< data.attach.length; i++){
+						addAttachment(data.attach[i]);
+					}
+				}catch(e){
+					console.log(e.message);
+				    mui.toast(errorCode.BAD_DATA);
+				}
+				setBlockVisiable(true);
+				if(infoStatue.match('已发布') || infoStatue.match('待审核')){
+					document.getElementById('searchBtn').style.display='none';
+					document.getElementById('submitBtn').style.display='none';
+				}
+				wd.close();				
+			};
+			
+			var onError = function(errcode){
+				wd.close(); // 失败，先关闭等待的对话框  
+				switch(errcode){
+				    case 'FAILED_NETWORK':
+				        mui.toast(errorCode.FAILED_NETWORK);
+				        break;
+				    default:
+				        mui.toast(errorCode.UNKNOW_ERROR);
+			   };
+			};
+			
+			var onSearchSuccess = function(data){
+				setBlockVisiable(false);
+				document.getElementById(stepBlock[0]).style.display='';
+				document.getElementById(stepBlock[1]).style.display='';
+				document.getElementById('landNum').innerHTML="请选择地块";
+				document.getElementById('landNum').value="";
+				//这里注入返回的数据
+				landPicker.setData(data.landList);
+				wd.close();
+			}
+			
+			var onSearchError = function(errcode){
+				onError(errcode);
+			};
+			
+			var onLandSuccess = function(data){
+				setBlockVisiable(true);
+				try{
+					mui('.rightcontentfonts').each(function(i,obj){
+						obj.innerText=data[obj.getAttribute('id')];
+					});
+					
+					//如果选择的地块关联了一条出租信息，则需要将出租信息的内容填充到对应的字段中
+					if(data.cirType){
+						app.setValue('cirType',data.cirType);
+						document.getElementById('cirType').innerText=app.getTextByValue(cirtype,data.cirType);
+						app.setValue('cirPeriod',data.cirPeriod);
+						app.setValue('cirPrice',data.cirPrice);
+						app.setValue('contactOut',data.contact);
+						app.setValue('telOut',data.tel);
+					}
+				}catch(e){
+					console.log(e.message);
+				    mui.toast(errorCode.BAD_DATA);
+				}
+				wd.close();
+			}
+			
+			var onLandError = function(errcode){
+				onError(errcode);
+			};
+			
+			var onSubmitSuccess = function(data){
+				uploadAttachment(data.infoId);
+			};
+		
+			var onSubmitError = function(errcode){
+				onError(errcode);
+			};
+
+			(function($, doc) {
+				$.init({});
+				$.plusReady(function() {
+					//选择土地所在地
+					var landRegionPicker = new $.PopPicker({layer:2});
+					landRegionPicker.setData(cityData);
+					var landRegion = doc.getElementById('landRegion');
+					landRegion.addEventListener('tap', function(event) {
+						landRegionPicker.show(function(items) {
+							if(landRegion.value != items[1].value){
+								landRegion.innerText = items[1].text;
+								landRegion.value = items[1].value;
+								//返回 false 可以阻止选择框的关闭
+								//return false;
+								setBlockVisiable(false);
+							}
+						});
+					}, false);
+					//选择流转方式
+					var cirTypePicker = new $.PopPicker();
+					cirTypePicker.setData(cirtype);
+					var cirType = doc.getElementById('cirType');
+					cirType.addEventListener('tap', function(event) {
+						cirTypePicker.show(function(items) {
+							cirType.innerText = items[0].text;
+							cirType.value = items[0].value;
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+						});
+					}, false);
+					//选择地块
+					var landNum = doc.getElementById('landNum');
+					landNum.addEventListener('tap', function(event) {
+						landPicker.show(function(items) {
+							if(landNum.value != items[0].value){
+								landNum.innerText = items[0].text;
+								landNum.value = items[0].value;
+								//返回 false 可以阻止选择框的关闭
+								//return false;
+								wd = plus.nativeUI.showWaiting("获取信息中，请等待...",{back:"none"});
+			      				var params={landNum:app.getValue('landNum')};
+			      				app.webQuery(app.getlanddetail_url,params,onLandSuccess,onLandError,1);
+							}
+						});
+					}, false);
+					
+					var realBack= function(){
+						if (typeof $.options.beforeback === 'function') {
+							if ($.options.beforeback() === false) {
+								return;
+							}
+						}
+						$.doAction('backs');
+					};
+					
+					$.back= function(noConfirm){
+						if(!noConfirm && (infoStatue==''||infoStatue.match('已退回'))){
+							var btn = ["确定","取消"];
+							$.confirm('确认放弃编辑？','提示',btn,function(e){
+								if(e.index==0){
+									realBack();
+								}
+							});
+							return;
+						}
+						
+						realBack();
+					};
+					
+					doc.getElementById('landHolder').addEventListener('input',function(){
+						setBlockVisiable(false);
+					});
+
+					window.addEventListener('getInfo',function(event){
+			      		initForm();
+			      		if(event.detail.id){
+			      			infoId=event.detail.id;
+			      			infoStatue=event.detail.statue;
+			      			wd = plus.nativeUI.showWaiting("获取信息中，请等待...",{back:"none"});
+			      			var params={infoId:event.detail.id};
+			      			app.webQuery(app.getdealinfo_url,params,onSuccess,onError,1);
+			      		}	
+			      	});
+			      	
+			      	doc.getElementById('searchBtn').addEventListener('tap',function(){
+			      		if(!checkLandSearchPart())
+			      			return;
+			      		
+			      		wd = plus.nativeUI.showWaiting("获取信息中，请等待...",{back:"none"});
+		      			var params={landRegion:app.getValue('landRegion'),landHolder:app.getValue('landHolder'),type:'2'};
+		      			app.webQuery(app.getlandnum_url,params,onSearchSuccess,onSearchError,1);
+			      	});
+			      	
+			      	/*添加附件按钮响应，只允许添加图片*/
+					doc.getElementById('attachment').addEventListener('tap',function(){
+						plus.gallery.pick( function(path){
+					    		if(0!=path.indexOf("file://")){
+								path="file://"+path;
+							}
+					    		var fileName=path.substring(path.lastIndexOf('/')+1);
+					    		var attachContainer=document.getElementById('attachment').parentNode;
+					    		var div=document.createElement('div');
+					    		div.className='attachment';
+					    		div.setAttribute('data-url',path);
+					    		div.innerHTML='<span class="mui-icon mui-icon-trash delAttachment"></span></div>'+fileName;
+					    		attachContainer.appendChild(div);
+					    		var delBtn=div.querySelector('.delAttachment');
+					    		delBtn.addEventListener('tap',function(){
+					    			attachContainer.removeChild(div);
+					    			delBtn.removeEventListener('tap',function(){});
+					    		});
+					    }, function ( e ) {
+					    	
+					    }, {filter:"none"} );
+					});
+			      	
+					/*保存按钮响应*/
+					doc.getElementById('submitBtn').addEventListener('tap',function(){
+						
+						var landNum= app.getValue('landNum');
+						var cirType= app.getValue('cirType');
+						var cirPrice= app.getValue('cirPrice');
+						var cirPeriod =app.getValue('cirPeriod');
+						var contractNum = app.getValue('contractNum');
+						var contactOut =app.getValue('contactOut');
+						var telOut =app.getValue('telOut');
+						var contactIn =app.getValue('contactIn');
+						var telIn =app.getValue('telIn');
+						
+						if(!cirType){
+							mui.toast(errorCode.EMPTY_CIRTYPE);
+							return;
+						};
+						
+						if(!cirPrice){
+							mui.toast(errorCode.EMPTY_CIRPRICE);
+							return;
+						};
+						
+						if(!cirPeriod){
+							mui.toast(errorCode.EMPTY_CIRPERIOD);
+							return;
+						};
+						
+						if(!contractNum){
+							mui.toast(errorCode.EMPTY_CONTRACTNUM);
+							return;
+						};
+						
+						if(!contactOut || !contactIn){
+							mui.toast(errorCode.EMPTY_CONTACT);
+							return;
+						};
+						
+						if(!telOut || !telIn){
+							mui.toast(errorCode.EMPTY_TEL);
+							return;
+						}
+						
+						var landRegion = app.getValue('landRegion');
+						var landHolder = app.getValue('landHolder');
+						
+						wd = plus.nativeUI.showWaiting("信息提交中，请等待...",{back:"none"});
+		      			var params={landRegion:landRegion,landHolder:landHolder,account:userInfo.username(),realName:userInfo.realname(),infoId:infoId, landNum:landNum, cirType:cirType, cirPrice:cirPrice, cirPeriod:cirPeriod, contractNum:contractNum, contactOut:contactOut, telOut:telOut, contactIn:contactIn, telIn:telIn};
+		      			app.webQuery(app.savedealinfo_url,params,onSubmitSuccess,onSubmitError,1);
+					});					
+				});
+			})(mui, document);
+		</script>
+	</body>
+
+</html>

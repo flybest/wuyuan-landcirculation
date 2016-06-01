@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+	    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>土地流转管理-流转信息管理-list</title>
+		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css"/>
+        <link rel="stylesheet" type="text/css" href="../../css/app.css"/>
+	</head>
+	<body> 
+		<div class="mui-content">
+			<div id="infoPullrefresh" class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<ul class="mui-table-view">
+						<!--<li class="mui-table-view-cell mui-media">
+							<a>
+								<span class=" mui-pull-right statue green">待审核</span>
+								<div class="mui-ellipsis mui-media-body">
+									<span class="listfonts">[成交]</span>
+									<span class="titlefonts">隆兴昌镇村东12亩</span>
+									<p class='mui-ellipsis'>2016-04-19</p>
+								</div>
+							</a>
+						</li>
+						<li class="mui-table-view-cell mui-media">
+							<a>
+								<span class=" mui-pull-right statue">已发布</span>
+								<div class="mui-ellipsis mui-media-body">
+									<span class="listfonts">[出租]</span>
+									<span class="titlefonts">给饲养母畜户提个醒</span>
+									<p class='mui-ellipsis'>2016-04-19</p>
+								</div>
+							</a>
+						</li>
+						<li class="mui-table-view-cell mui-media">
+							<a>
+								<span class=" mui-pull-right statue red">已退回</span> 
+								<div class="mui-ellipsis mui-media-body">
+									<span class="listfonts">[求租]</span>
+									<span class="titlefonts">秋季大白菜干烧心病的整治</span>
+									<p class='mui-ellipsis'>2016-04-25</p>
+								</div>
+							</a>
+						</li>-->
+					</ul>
+				</div>
+			</div>
+			<a id="refreshBtn"><span class="mui-icon mui-icon-loop refresh"></span></a>
+		</div>
+			
+		<script type="text/javascript" src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/app.js" ></script>
+		<script type="text/javascript" src="../../js/errorcode.js" ></script>
+		<script type="text/javascript" src="../../js/userinfo.js" ></script>
+		<script>
+			var keyword='';
+		
+			var startSearch = function(kw){
+				keyword=kw;
+				mui('#infoPullrefresh').pullRefresh().pullupLoading();
+			};
+			
+			var clearList = function(){
+				var table = document.body.querySelector('.mui-table-view');
+				while(table.hasChildNodes()) 
+					table.removeChild(table.firstChild);	
+				return table;
+			};
+			
+			var onUpSuccess = function(data){
+				var table = clearList();
+				try{
+					for (var i = 0; i < data.respondCount; i++) {
+						var li = document.createElement('li');
+						var statue;
+						switch(data.info[i].statue){
+						    case '待审核':
+						        statue='green';
+						        break;
+					        case '已退回':
+						        statue='red';
+						        break;
+						    default:
+						        statue='';
+					    }
+						li.className = 'mui-table-view-cell mui-media';
+						li.innerHTML = '<a id="'+ data.info[i].infoId +'"><span class=" mui-pull-right statue '+ statue +'">'+ data.info[i].statue +'</span>'
+							+'<div class="mui-ellipsis mui-media-body"><span class="listfonts">['+ data.info[i].type +']</span><span class="titlefonts">'
+							+data.info[i].title+'</span><p class="mui-ellipsis">'+data.info[i].publishDate+'</p></div></a>';
+						table.appendChild(li);
+						document.getElementById(data.info[i].infoId).addEventListener('tap',function(){
+							//这里打开详情窗口显示信息
+							if(this.querySelector('.listfonts').innerText.substr(1).substr(2,2)=='求租'){
+								var detailPage = plus.webview.getWebviewById('wantinfoupload');
+								mui.fire(detailPage,'getInfo',{id:this.getAttribute('id'), statue:this.querySelector('.statue').innerText});
+								mui.openWindow({id:'wantinfoupload'});
+							}else{
+								var detailPage = plus.webview.getWebviewById('rentinfoupload');
+								mui.fire(detailPage,'getInfo',{id:this.getAttribute('id'), statue:this.querySelector('.statue').innerText});
+								mui.openWindow({id:'rentinfoupload'});
+							}
+						});
+					} 
+				}catch(e){
+					console.log(e.message);
+					mui.toast(errorCode.BAD_DATA);
+				}
+				
+				mui('#infoPullrefresh').pullRefresh().endPullupToRefresh(true);
+				document.querySelector('.refresh').className='mui-icon mui-icon-loop refresh';
+			};
+			 
+			var onUpError = function(errcode){
+			    document.querySelector('.refresh').className='mui-icon mui-icon-loop refresh';
+			    
+			    var err="";
+			    switch(errcode){
+				    case 'FAILED_NETWORK':
+				        err=errorCode.FAILED_NETWORK;
+				        break;
+			        case 'EMPTY_PERSONCIR':
+		       	 		err=errorCode.EMPTY_PERSONCIR;
+				        break;
+				    default:
+				        err=errorCode.FAILED_LOADED;
+			    }
+			    mui('#infoPullrefresh').pullRefresh().endPullupToRefresh(true);
+			    	mui.toast(err);
+			}; 
+	 
+			function pullupRefresh() {
+				document.querySelector('.refresh').className='mui-icon mui-icon-loop refresh refreshstart';
+				var params = {keyword:keyword,account:userInfo.username()};
+				app.webQuery(app.getcirlist_url, params, onUpSuccess, onUpError, 1);
+			};
+	
+	      	(function($, doc) {
+				$.init({
+					pullRefresh : {
+						container:'#infoPullrefresh',//待刷新区域标识，querySelector能定位的css选择器均可，比如：id、.class等
+						up : {
+							contentrefresh : '正在加载...',//可选，正在加载状态时，上拉加载控件上显示的标题内容
+							contentnomore : '没有更多数据了',//可选，请求完毕若没有更多数据时显示的提醒内容；
+							callback : pullupRefresh //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+						}
+					} 
+				});
+				
+				$.plusReady(function() {
+					
+					document.getElementById('refreshBtn').addEventListener('tap',function(){
+						keyword='';
+						mui('#infoPullrefresh').pullRefresh().pullupLoading();
+					});
+					
+					window.addEventListener('startGetData',function(){
+						setTimeout(function() {
+							mui('#infoPullrefresh').pullRefresh().pullupLoading();
+						}, 0);
+					});
+					
+					window.addEventListener('updateItem',function(event){
+						var item = document.getElementById(event.detail.infoId);
+						item.querySelector('.statue').innerText=event.detail.statue;
+						item.querySelector('.statue').className='mui-pull-right statue green';
+						item.querySelector('.listfonts').innerText='['+event.detail.type+']';
+						item.querySelector('.titlefonts').innerText=event.detail.title;
+					});
+				});
+			})(mui, document);
+		</script>
+	</body>
+</html>
