@@ -1,10 +1,4 @@
-
-.svn/entries
-
-.svn/format
-
+.idea/*
+.svn/*
 .project
-
-*.svn-base
-
-.svn/wc.db
+unpackage/release/*
